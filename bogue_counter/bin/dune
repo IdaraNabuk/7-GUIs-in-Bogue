@@ -1,0 +1,4 @@
+(executable
+ (public_name bogue_counter)
+ (name main)
+ (libraries bogue bogue_counter))

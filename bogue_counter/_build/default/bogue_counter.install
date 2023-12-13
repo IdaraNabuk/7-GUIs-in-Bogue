@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/bogue_counter/META"
+  "_build/install/default/lib/bogue_counter/dune-package"
+  "_build/install/default/lib/bogue_counter/opam"
+]
+bin: [
+  "_build/install/default/bin/bogue_counter"
+]
