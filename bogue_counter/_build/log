@@ -20,4 +20,5 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_593bff_output
+$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_14c769_output
+$ (cd _build/default && /home/richie/.opam/default/bin/ocamlformat --impl bin/main.ml) > _build/default/bin/.formatted/main.ml
