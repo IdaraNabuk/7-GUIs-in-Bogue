@@ -1,4 +1,4 @@
-# dune exec ./_build/default/bin/main.exe
+# dune fmt
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/richie/.cache/dune/db
@@ -20,5 +20,4 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_e09c31_output
-$ (cd _build/default && /home/richie/.opam/default/bin/ocamlopt.opt -w @1..3@5..28@30..39@43@46..47@49..57@61..62@67@69-40 -strict-sequence -strict-formats -short-paths -keep-locs -g -I bin/.main.eobjs/byte -I bin/.main.eobjs/native -I /home/richie/.opam/default/lib/bigarray-compat -I /home/richie/.opam/default/lib/bogue -I /home/richie/.opam/default/lib/bytes -I /home/richie/.opam/default/lib/ctypes -I /home/richie/.opam/default/lib/integers -I /home/richie/.opam/default/lib/ocaml/str -I /home/richie/.opam/default/lib/ocaml/threads -I /home/richie/.opam/default/lib/ocaml/unix -I /home/richie/.opam/default/lib/stdlib-shims -I /home/richie/.opam/default/lib/tsdl -I /home/richie/.opam/default/lib/tsdl-image -I /home/richie/.opam/default/lib/tsdl-ttf -I lib/.bogue_counter.objs/byte -I lib/.bogue_counter.objs/native -intf-suffix .ml -no-alias-deps -opaque -o bin/.main.eobjs/native/dune__exe__Main.cmx -c -impl bin/main.ml)
+$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_593bff_output
