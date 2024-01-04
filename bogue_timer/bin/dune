@@ -1,0 +1,4 @@
+(executables
+ (public_names bogue_timer example)
+ (names main example)
+ (libraries bogue bogue_timer))
