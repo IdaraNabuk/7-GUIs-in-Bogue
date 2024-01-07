@@ -11,8 +11,8 @@ let startCountdown c _ =
     while !counter > 0 && not !pause do
       decr counter;
       updateDisplayVal c !counter;
+      W.update c;
       Unix.sleep 1;
-      print_endline (string_of_int !counter);
     done
 
 let () =
