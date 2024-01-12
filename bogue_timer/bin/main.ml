@@ -6,7 +6,17 @@ module T = Trigger
 let counter = ref 0
 let pause = ref false
 
-let updateDisplayVal c n = W.set_text c (string_of_int n)
+let to_hh_mm_ss time_in_sec =
+  let seconds = time_in_sec in
+  let hours = seconds / 3600 in
+  let minutes = (seconds - (hours * 3600)) / 60 in
+  let seconds = seconds - (hours * 3600) - (minutes * 60) in
+  let hours_str = if hours < 10 then "0" ^ string_of_int hours else string_of_int hours in
+  let minutes_str = if minutes < 10 then "0" ^ string_of_int minutes else string_of_int minutes in
+  let seconds_str = if seconds < 10 then "0" ^ string_of_int seconds else string_of_int seconds in
+  hours_str ^ ":" ^ minutes_str ^ ":" ^ seconds_str
+
+let updateDisplayVal c n = W.set_text c (to_hh_mm_ss n)
 
 let startCountdown c =
      while !counter > 0 && not !pause do
@@ -21,7 +31,7 @@ let () =
   let label_timer = L.flat_of_w [timer_label] in
   let label_layout = L.tower ~margins:0 [label_timer] 
 in
-  let count = W.label ~size:30 "   0   " in
+  let count = W.label ~size:30 "   00:00:00   " in
   let count_field = L.flat_of_w [count;] in
   let count_layout = L.tower ~margins:0 [count_field;] 
 in
@@ -56,62 +66,3 @@ in
   |> Bogue.of_layout ~connections:[connect]
   |> Bogue.run
   
-
-  (* let () =
-  let clock w1 _ ev =
-    let rec loop () =
-      let tm = Unix.localtime (Unix.time ()) in
-      let s = Unix.(sprintf "%02u:%02u:%02u" tm.tm_hour tm.tm_min tm.tm_sec) in
-      Label.set (W.get_label w1) s;
-      W.update w1;
-      let drift = Unix.gettimeofday () -. (Unix.time ()) in
-      (* printf "Drift = %f\n" drift; *) (* we try to keep the drift near 0.5 *)
-      if drift < 0.45 then Thread.delay (0.51 -. drift)
-      else if drift > 0.55 then Thread.delay (1.49 -. drift) (* we are too late *)
-      else T.nice_delay ev 0.999;
-      if T.should_exit ev
-      then (print_endline "Stopping Clock"; T.will_exit ev)
-      else loop () in
-    print_endline "Starting new clock";
-    loop () in
-  let l = W.label "Click to start clock" in
-  (* let l' = W.label ~size:40 "Autostarts" in *)
-  let c = W.connect l l clock T.buttons_down in
-  (* let c' = W.connect l' l' clock [T.startup] in *)
-  let lay =  L.flat_of_w [l;] in
-  let board = of_layout ~connections:[c;] lay in
-  run board *)
-  
-
-(* let () = 
-
-
-let clock w1 _ ev =
-  let rec loop () =
-    let tm = Unix.localtime (Unix.time ()) in
-    let s = Unix.(sprintf "%02u:%02u:%02u" tm.tm_hour tm.tm_min tm.tm_sec) in
-    Label.set (W.get_label w1) s;
-    W.update w1;
-    let drift = Unix.gettimeofday () -. (Unix.time ()) in
-    (* printf "Drift = %f\n" drift; *) (* we try to keep the drift near 0.5 *)
-    if drift < 0.45 then Thread.delay (0.51 -. drift)
-    else if drift > 0.55 then Thread.delay (1.49 -. drift) (* we are too late *)
-    else T.nice_delay ev 0.999;
-    if T.should_exit ev
-    then (print_endline "Stopping Clock"; T.will_exit ev)
-    else loop () in
-  print_endline "Starting new clock";
-  loop () in
-
-let button = W.button "Start Clock" in
-let c_button = W.connect button button clock T.buttons_down in
-
-let time_label = W.label "Time will be displayed here" in
-
-let c_time = W.connect time_label time_label clock [T.startup] in
-
-(* let c_time = W.connect time_label time_label (clock time_label) [T.startup] in *)
-
-let lay = L.flat_of_w [button; time_label] in
-let board = of_layout ~connections:[c_button; c_time] lay in
-run board *)

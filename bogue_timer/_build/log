@@ -20,4 +20,5 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_de9e17_output
+$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_fd0b38_output
+$ (cd _build/default && /home/richie/.opam/default/bin/ocamldep.opt -modules -impl bin/main.ml) > _build/default/bin/.main.eobjs/dune__exe__Main.impl.d
