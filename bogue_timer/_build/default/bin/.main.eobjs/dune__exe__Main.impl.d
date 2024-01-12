@@ -1,1 +1,1 @@
-bin/main.ml: Bogue Draw Layout Thread Unix Widget
+bin/main.ml: Bogue Draw Label Layout Trigger Unix Widget
