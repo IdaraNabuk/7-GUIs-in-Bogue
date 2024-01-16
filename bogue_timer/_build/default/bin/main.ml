@@ -16,12 +16,12 @@ let to_hh_mm_ss time_in_sec =
   let seconds_str = if seconds < 10 then "0" ^ string_of_int seconds else string_of_int seconds in
   hours_str ^ ":" ^ minutes_str ^ ":" ^ seconds_str
 
-let updateDisplayVal c n = W.set_text c (to_hh_mm_ss n)
+let updatedisplayval c n = W.set_text c (to_hh_mm_ss n)
 
-let startCountdown c =
+let startcountdown c =
      while !counter > 0 && not !pause do
       decr counter;
-      updateDisplayVal c !counter;
+      updatedisplayval c !counter;
       W.update c;
       Unix.sleep 1;
     done
@@ -39,24 +39,24 @@ let inc_button = W.button ~border_radius:100
 ~label:(Label.icon "plus-circle")
 ~action: (fun _ ->
   incr counter;
-  updateDisplayVal count !counter) "" in
+  updatedisplayval count !counter) "" in
   let dec_button = W.button ~border_radius:100
 ~label:(Label.icon "minus-circle")
 ~action: (fun _ ->
   decr counter;
-  updateDisplayVal count !counter) "" in
+  updatedisplayval count !counter) "" in
   let timer_buttons = L.flat_of_w [dec_button; inc_button;] in
   let timer_layout = L.tower [timer_buttons;] 
 in
   let start_button = W.button "Start" in
 let connect =
   W.connect ~priority:Forget start_button count
-    (fun _source target _ -> pause := false; if !counter > 0 then startCountdown target)
+    (fun _source target _ -> pause := false; if !counter > 0 then startcountdown target)
     Trigger.buttons_down in
   let pause_button = W.button
-    ~action:(fun _ -> pause := true; updateDisplayVal count !counter) "Pause" in
+    ~action:(fun _ -> pause := true; updatedisplayval count !counter) "Pause" in
   let reset_button = W.button
-    ~action:(fun _ -> pause := true; counter := 0; updateDisplayVal count !counter) "Reset" in
+    ~action:(fun _ -> pause := true; counter := 0; updatedisplayval count !counter) "Reset" in
   let action_buttons = L.flat_of_w [start_button; pause_button; reset_button;] in
   let action_layout = L.tower ~margins:0 [action_buttons;] 
 in
