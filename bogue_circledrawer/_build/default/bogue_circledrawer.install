@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/bogue_circledrawer/META"
+  "_build/install/default/lib/bogue_circledrawer/dune-package"
+  "_build/install/default/lib/bogue_circledrawer/opam"
+]
+bin: [
+  "_build/install/default/bin/bogue_circledrawer"
+]
