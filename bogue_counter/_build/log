@@ -1,4 +1,4 @@
-# dune fmt
+# dune exec ./bin/main.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location: /home/richie/.cache/dune/db
@@ -20,5 +20,4 @@
 #        }
 #  ; instrument_with = []
 #  }
-$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_14c769_output
-$ (cd _build/default && /home/richie/.opam/default/bin/ocamlformat --impl bin/main.ml) > _build/default/bin/.formatted/main.ml
+$ /home/richie/.opam/default/bin/ocamlc.opt -config > /tmp/dune_8ec131_output
