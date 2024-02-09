@@ -3,6 +3,8 @@ open Bogue
 (* open Main *)
 module W = Widget
 module L = Layout
+module M = Mouse
+module T = Trigger
 
 
 (* let desc49 = "SDL area which adapts to resizing" *)
@@ -16,7 +18,11 @@ module L = Layout
       Draw.circle renderer ~color:Draw.(opaque black) ~thick:2 ~x:(2*w/4) ~y:(h/2)
         ~radius:(h/7)
     in
-  
+    let connect =
+      W.connect a a
+        (fun _source _target mouse_point -> let (x, y) = M.pointer_pos mouse_point in 
+        Printf.printf "(%d %d)\n" x y )
+        T.buttons_down in
     (* We can remove/add the circle by clicking on a check box. *)
     let element = Sdl_area.add_get ~name:"circle" area circle in
     let b,l = W.check_box_with_label "circle" in
@@ -57,10 +63,17 @@ in
   let circle_buttons = L.flat_of_w [undo_button; redo_button;] in
   let button_layout = L.tower [circle_buttons;] 
 in
+
+(* let mouse_point _source target _ =
+
+let c =
+  W.connect a a mouse_point T.mouse_enter in *)
+  
+
 Layout.tower ~name:"Circledrawer" ~align:Draw.Center
     [circle_layout; button_layout; options; L.resident a]
 
-  |> Bogue.of_layout
+  |> Bogue.of_layout ~connections:[connect]
   |> Bogue.run 
   
 
