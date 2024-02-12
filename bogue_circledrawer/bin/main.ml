@@ -1,80 +1,71 @@
 open Bogue
-(* open Tsdl *)
-(* open Main *)
 module W = Widget
 module L = Layout
 module M = Mouse
 module T = Trigger
 
-
-(* let desc49 = "SDL area which adapts to resizing" *)
-  let () =
+let () =
     let a = W.sdl_area ~w:500 ~h:200 () in
     let area = W.get_sdl_area a in 
-  
-    (* We draw a thick circle *)
+
+    (* We store the circle positions in a mutable list *)
+    let circle_positions = ref [] in
+    (* We store the undone circle positions in a mutable list *)
+    let undone_positions = ref [] in
+
+    (* We draw a thick circle at each stored position *)
     let circle renderer =
-      let w,h = Sdl_area.drawing_size area in
-      Draw.circle renderer ~color:Draw.(opaque black) ~thick:2 ~x:(2*w/4) ~y:(h/2)
-        ~radius:(h/7)
+      let _w,h = Sdl_area.drawing_size area in
+      List.iter (fun (x, y) ->
+        Draw.circle renderer ~color:Draw.(opaque black) ~thick:2 ~x:x ~y:y
+          ~radius:(h/12)
+      ) !circle_positions
     in
+
     let connect =
       W.connect a a
-        (fun _source _target mouse_point -> let (x, y) = M.pointer_pos mouse_point in 
-        Printf.printf "(%d %d)\n" x y )
-        T.buttons_down in
-    (* We can remove/add the circle by clicking on a check box. *)
-    let element = Sdl_area.add_get ~name:"circle" area circle in
-    let b,l = W.check_box_with_label "circle" in
-    W.set_check_state b true;
-    List.iter (W.on_click ~click:(fun _ ->
-        if W.get_state b
-        then begin
+        (fun _source _target e -> 
+          let (x, y) = M.pointer_pos e in 
+          circle_positions := (x, y) :: !circle_positions;  (* We store the click position *)
+          undone_positions := [];  (* We clear the undone positions when a new circle is drawn *)
+
+          let element = Sdl_area.add_get ~name:"circle" area circle in
           Sdl_area.enable element;
           if not (Sdl_area.has_element area element)
-          then (print_endline "new circle"; Sdl_area.add_element area element)
-        end
-        else Sdl_area.disable element;
-        Sdl_area.update area)) [b;l];
-  
-    (* Clear button *)
-    let cb = W.button "Clear" in
-    W.on_click cb ~click:(fun _ ->
-        Sdl_area.clear area;
-        W.set_check_state b false);
-  
-    (* Sdl_area.add area draw; *)
-    let options = L.flat ~align:Draw.Center
-        [(L.flat_of_w [b;l]);
-         Space.hfill ();
-         L.resident cb] in
-    Space.full_width options;
+          then (print_endline "new circle"; Sdl_area.add_element area element);
 
-  let circle_label = W.label ~size:20 "Circledrawer" in
-  let drawer_label = L.flat_of_w [circle_label] in
-  let circle_layout = L.tower ~margins:0 [drawer_label]
-in
-  let undo_button = W.button ~border_radius:200
-~label:(Label.icon "undo") "" 
-in
-  let redo_button = W.button ~border_radius:600
-~label:(Label.icon "redo") "" 
-in
-  let circle_buttons = L.flat_of_w [undo_button; redo_button;] in
-  let button_layout = L.tower [circle_buttons;] 
-in
+          Sdl_area.update area) 
+        T.buttons_down in
 
-(* let mouse_point _source target _ =
+    (* Undo button *)
+    let undo_button = W.button "Undo" in
+    W.on_click undo_button ~click:(fun _ ->
+        match !circle_positions with
+        | h :: t -> 
+            circle_positions := t;  (* We remove the last circle position *)
+            undone_positions := h :: !undone_positions;  (* We store the undone position *)
+            Sdl_area.update area
+        | [] -> print_endline "No circles to undo.");  (* Print a message when there are no circles to undo *)
 
-let c =
-  W.connect a a mouse_point T.mouse_enter in *)
-  
+    (* Redo button *)
+    let redo_button = W.button "Redo" in
+    W.on_click redo_button ~click:(fun _ ->
+        match !undone_positions with
+        | h :: t -> 
+            undone_positions := t;  (* We remove the last undone position *)
+            circle_positions := h :: !circle_positions;  (* We restore the undone position *)
+            Sdl_area.update area
+        | [] -> print_endline "No circles to redo.");  (* Print a message when there are no circles to redo *)
 
-Layout.tower ~name:"Circledrawer" ~align:Draw.Center
-    [circle_layout; button_layout; options; L.resident a]
+    let circle_label = W.label ~size:20 "Circle Drawer" in
+    let drawer_label = L.flat_of_w [circle_label] in
+    let circle_layout = L.tower ~margins:0 [drawer_label] in
 
-  |> Bogue.of_layout ~connections:[connect]
-  |> Bogue.run 
-  
+    let circle_buttons = L.flat_of_w [undo_button; redo_button;] in
+    let button_layout = L.tower [circle_buttons;] in
 
+    Layout.tower ~name:"Circle Drawer" ~align:Draw.Center
+        [L.resident a; circle_layout; button_layout]
 
+    |> Bogue.of_layout ~connections:[connect]
+    |> Bogue.run
