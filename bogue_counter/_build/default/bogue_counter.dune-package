@@ -1,4 +1,0 @@
-(lang dune 3.12)
-(name bogue_counter)
-(sections (lib .) (bin ../../bin))
-(files (lib (META dune-package opam)) (bin (bogue_counter)))
