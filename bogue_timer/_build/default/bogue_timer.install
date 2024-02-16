@@ -1,9 +1,0 @@
-lib: [
-  "_build/install/default/lib/bogue_timer/META"
-  "_build/install/default/lib/bogue_timer/dune-package"
-  "_build/install/default/lib/bogue_timer/opam"
-]
-bin: [
-  "_build/install/default/bin/bogue_timer"
-  "_build/install/default/bin/example"
-]

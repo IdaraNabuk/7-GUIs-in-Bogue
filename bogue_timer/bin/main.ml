@@ -27,7 +27,7 @@ let startcountdown c =
     done
 
 let () =
-  let timer_label = W.label ~size:20 "Timer" in
+  let timer_label = W.label ~size:20 "Countdown Timer" in
   let label_timer = L.flat_of_w [timer_label] in
   let label_layout = L.tower ~margins:0 [label_timer] 
 in
