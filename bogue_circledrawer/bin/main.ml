@@ -18,17 +18,15 @@ let () =
       let _w,h = Sdl_area.drawing_size area in
       List.iter (fun (x, y) ->
         Draw.circle renderer ~color:Draw.(opaque black) ~thick:2 ~x:x ~y:y
-          ~radius:(h/18)
+          ~radius:(h/20)
       ) !circle_positions
     in
 
     let connect =
       W.connect a a
         (fun _source _target e -> 
-          let (x, y) = M.pointer_pos e in 
-          print_endline (string_of_int x);
-          circle_positions := (x + 55, y -50) :: !circle_positions;  (* We store the click position *)
-          Printf.printf ("%d, %d \n") (x + 55) (y - 50);
+          let x,y = Sdl_area.pointer_pos area e in
+          circle_positions := (x, y) :: !circle_positions;  (* We store the click position *)
           undone_positions := [];  (* We clear the undone positions when a new circle is drawn *)
 
           let element = Sdl_area.add_get ~name:"circle" area circle in

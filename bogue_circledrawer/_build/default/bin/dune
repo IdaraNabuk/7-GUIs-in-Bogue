@@ -1,4 +1,0 @@
-(executable
- (public_name bogue_circledrawer)
- (name main)
- (libraries bogue bogue_circledrawer))
