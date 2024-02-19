@@ -1,0 +1,8 @@
+lib: [
+  "_build/install/default/lib/temperature_converter/META"
+  "_build/install/default/lib/temperature_converter/dune-package"
+  "_build/install/default/lib/temperature_converter/opam"
+]
+bin: [
+  "_build/install/default/bin/temperature_converter"
+]
