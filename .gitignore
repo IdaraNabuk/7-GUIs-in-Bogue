@@ -13,3 +13,7 @@ _build/
 
 # Local OPAM switch
 _opam/
+
+**/_build/
+**/.idea/
+.idea/
