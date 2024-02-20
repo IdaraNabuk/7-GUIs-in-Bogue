@@ -1,8 +1,0 @@
-lib: [
-  "_build/install/default/lib/crud/META"
-  "_build/install/default/lib/crud/dune-package"
-  "_build/install/default/lib/crud/opam"
-]
-bin: [
-  "_build/install/default/bin/crud"
-]
