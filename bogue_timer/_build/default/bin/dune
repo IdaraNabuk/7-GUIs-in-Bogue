@@ -1,4 +1,0 @@
-(executable
- (public_name bogue_timer)
- (name main)
- (libraries bogue bogue_timer))

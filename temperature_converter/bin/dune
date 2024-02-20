@@ -1,0 +1,4 @@
+(executable
+ (public_name temperature_converter)
+ (name main)
+ (libraries bogue temperature_converter))
