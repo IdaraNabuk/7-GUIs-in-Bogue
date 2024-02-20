@@ -1,0 +1,4 @@
+(executable
+ (public_name crud)
+ (name main)
+ (libraries bogue crud))
