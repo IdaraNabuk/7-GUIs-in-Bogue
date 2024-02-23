@@ -1,0 +1,4 @@
+(executable
+ (public_name cells)
+ (name main)
+ (libraries bogue cells))
