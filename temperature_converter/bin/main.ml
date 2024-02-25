@@ -8,20 +8,32 @@ let celsius_to_fahrenheit c =
 let fahrenheit_to_celsius f =
   (f -. 32.0) /. 1.8
 
-(* let thick_grey_line = Style.mk_line ~color:Draw.(opaque grey)
+let thick_grey_line = Style.mk_line ~color:Draw.(transp grey)
   ~width:3 ~style:Solid ()
-let round_blue_box = let open Style in
+(* let round_blue_box = let open Style in
 let border = mk_border thick_grey_line in
   create ~border () *)
+
+  let input_field = let open Style in
+  let border = mk_border ~radius:10 thick_grey_line in
+  let _ = W.text_input in
+  create ~border ()
 
 let main () =
   let celsiusInput = W.text_input ~max_size:200 ~prompt:"Enter Celsius" () in
   let celsiusLabel = W.label ~size:15 "Celsius = " in
   let fahrenheitInput = W.text_input ~max_size:200 ~prompt:"Enter Fahrenheit" () in
-  (* let tf = W.box ~w:150 ~h:30 ~style:round_blue_box () in *)
   let fahrenheitLabel = W.label ~size:15 "Fahrenheit" in
+  (* let rect = W.box ~w:150 ~h:30 ~style:round_blue_box () in *)
+  (* let nameInput = W.text_input ~max_size:200 ~prompt:"Enter Name" () in *)
+  (* let rect = W.box ~w:150 ~h:30 ~action:(fun _ ->
+    W.text_input ~max_size:200 ()) ~style:round_blue_box () in
+  let rect, nameInput = rect_with_text_input text; *)
+  (* let customWidget = W.connect rect  in *)
 
-  let layout = L.flat_of_w [celsiusInput; celsiusLabel; fahrenheitInput; fahrenheitLabel] in
+  let box = W.box ~style:input_field () in
+
+  let layout = L.flat_of_w [box; celsiusInput; celsiusLabel; fahrenheitInput; fahrenheitLabel] in
 
   let c_to_f inputc inputf _ =
     let text = W.get_text inputc in
@@ -40,6 +52,9 @@ let main () =
       let fahrenheit = float_of_string text in
       let celsius = fahrenheit_to_celsius fahrenheit in
       W.set_text inputc (string_of_float celsius) in
+
+
+
 
   let c = W.connect celsiusInput fahrenheitInput c_to_f Trigger.[text_input; key_up] in
   let f = W.connect fahrenheitInput celsiusInput f_to_c Trigger.[text_input; key_up] in
