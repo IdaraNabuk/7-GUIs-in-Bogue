@@ -31,7 +31,7 @@ let main () =
   let rect, nameInput = rect_with_text_input text; *)
   (* let customWidget = W.connect rect  in *)
 
-  let box = W.box ~style:input_field () in
+  let box = W.box ~w:150 ~h:30 ~style:input_field () in
 
   let layout = L.flat_of_w [box; celsiusInput; celsiusLabel; fahrenheitInput; fahrenheitLabel] in
 
@@ -52,9 +52,6 @@ let main () =
       let fahrenheit = float_of_string text in
       let celsius = fahrenheit_to_celsius fahrenheit in
       W.set_text inputc (string_of_float celsius) in
-
-
-
 
   let c = W.connect celsiusInput fahrenheitInput c_to_f Trigger.[text_input; key_up] in
   let f = W.connect fahrenheitInput celsiusInput f_to_c Trigger.[text_input; key_up] in
