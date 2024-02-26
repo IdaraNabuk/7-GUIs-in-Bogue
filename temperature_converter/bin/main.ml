@@ -16,7 +16,7 @@ let border = mk_border thick_grey_line in
 
   let input_field = let open Style in
   let border = mk_border ~radius:10 thick_grey_line in
-  let _ = W.text_input in
+  let _ = W.text_input ~prompt:"Enter Celsius" () in
   create ~border ()
 
 let main () =
