@@ -8,20 +8,25 @@ let celsius_to_fahrenheit c =
 let fahrenheit_to_celsius f =
   (f -. 32.0) /. 1.8
 
-(* let thick_grey_line = Style.mk_line ~color:Draw.(opaque grey)
-  ~width:3 ~style:Solid ()
-let round_blue_box = let open Style in
-let border = mk_border thick_grey_line in
-  create ~border () *)
-
 let main () =
-  let celsiusInput = W.text_input ~max_size:200 ~prompt:"Enter Celsius" () in
-  let celsiusLabel = W.label ~size:15 "Celsius = " in
-  let fahrenheitInput = W.text_input ~max_size:200 ~prompt:"Enter Fahrenheit" () in
-  (* let tf = W.box ~w:150 ~h:30 ~style:round_blue_box () in *)
-  let fahrenheitLabel = W.label ~size:15 "Fahrenheit" in
+  let style = Style.(of_bg (color_bg Draw.(opaque (find_color "beige")))
+                     |> with_border
+                       (mk_border
+                          (mk_line ~width:3 ~color:Draw.(opaque grey) ()))) in
 
-  let layout = L.flat_of_w [celsiusInput; celsiusLabel; fahrenheitInput; fahrenheitLabel] in
+  let celsiusInput = W.text_input ~max_size:100 ~prompt:"Enter Celsius" () in
+  let cLayout = Layout.resident ~w:150 ~background:(Layout.style_bg style) celsiusInput in
+
+  let celsiusLabel = W.label ~size:15 "Celsius = " in
+  let cTLayout = Layout.resident celsiusLabel in
+
+  let fahrenheitInput = W.text_input ~max_size:100 ~prompt:"Enter Fahrenheit" () in
+  let fLayout = Layout.resident ~w:150 ~background:(Layout.style_bg style) fahrenheitInput in
+
+  let fahrenheitLabel = W.label ~size:15 "Fahrenheit" in
+  let fTLayout = Layout.resident fahrenheitLabel in
+
+  let layout = L.flat [cLayout; cTLayout; fLayout; fTLayout] in
 
   let c_to_f inputc inputf _ =
     let text = W.get_text inputc in
