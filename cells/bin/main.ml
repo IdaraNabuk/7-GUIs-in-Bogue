@@ -54,7 +54,7 @@ let () =
     let title = String.make 1 (char_of_int (64 + i)) in
     if i = 0 then col0 else create_column title) in
   
-  let table, _ = Table.create ~h:400 (Array.to_list columns) in
+  let cells, _ = Table.create ~h:400 (Array.to_list columns) in
 
-  let board = Bogue.of_layout table in
+  let board = Bogue.of_layout cells in
   Bogue.run board
